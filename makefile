@@ -3,4 +3,4 @@ all:
 debug:
 	g++ *.cpp -g
 t0:
-	./a.out < /ins/1.meio
+	./a.out < ins/1.meio
