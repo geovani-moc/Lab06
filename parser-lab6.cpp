@@ -14,6 +14,7 @@ using namespace std;
 #include "Arvore.hpp"
 #include "Parser.hpp"
 #include "conversao.hpp"
+#include "selecaoInstrucao.hpp"
 
 int main(int argc, char * argv[]) {
   if (argc != 3 && argc != 1) {
@@ -48,6 +49,9 @@ int main(int argc, char * argv[]) {
   //fprintf(stderr,"&&\n");fflush(stderr);
   RI * rep_interm = representacao_intermediaria_da_unica_atribuicao(func);
   //fprintf(stderr,"-&&-\n");fflush(stderr);
+
+  SelecaoInstrucao selecao_instrucao(rep_interm);
+  selecao_instrucao.imprimir();
+
   return 0;
 }
-
