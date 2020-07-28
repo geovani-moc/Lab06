@@ -2,6 +2,8 @@
 #define SELECAO_INSTRUCAO_HPP
 
 #include "RepreInterm.hpp"
+#include <vector>
+#include <string>
 
 #define ADD (1)
 #define MUL (2)
@@ -21,12 +23,19 @@ using namespace std;
 class SelecaoInstrucao
 {
 private:
-    string instrucoes;
-    string selecionar(RI *raiz);
+    vector<string> instrucoes;
+    void selecionar(RI *raiz);
     int contador_registradores;
     int definir_caso();
 
-    void SelecaoInstrucao::instrucao_add();
+    void instrucao_ADD(RI *nodo);
+    void instrucao_SUB(RI *nodo);
+    void instrucao_MUL(RI *nodo);
+    void instrucao_DIV(RI *nodo);
+    void instrucao_LOAD(RI *nodo);
+    void instrucao_STORE(RI *nodo);
+    void instrucao_ADDI(RI *nodo);
+    void instrucao_TEMP(RI *nodo);
 
 public:
     SelecaoInstrucao(RI *representacao_intermediaria);

@@ -3,45 +3,45 @@
 SelecaoInstrucao::SelecaoInstrucao(RI *representacao_intermediaria)
 {
     contador_registradores = 1; //registrador 0 (r0) e reservado
-    instrucoes = selecionar(representacao_intermediaria);
+    selecionar(representacao_intermediaria);
 }
 
 void SelecaoInstrucao::imprimir()
 {
-    printf("%s\n", instrucoes.c_str());
+    int tamanho = instrucoes.size();
+    for (int i = 0; i < tamanho; ++i)
+    {
+        printf("%s\n", instrucoes[i]);
+    }
 }
 
-string SelecaoInstrucao::selecionar(RI *raiz)
+void SelecaoInstrucao::selecionar(RI *raiz)
 {
     int caso = definir_caso();
 
     switch (caso)
     {
-    case ADD:
-        selecionar(((Binop_RI *)raiz)->esq);
-        selecionar(((Binop_RI *)raiz)->dir);
+    case ADD: instrucao_ADD(raiz);
         break;
-    case SUB:
+    case SUB: instrucao_SUB(raiz);
         break;
-    case MUL:
+    case MUL: instrucao_MUL(raiz);
         break;
-    case DIV:
+    case DIV: instrucao_DIV(raiz);
         break;
-    case LOAD:
+    case LOAD: instrucao_LOAD(raiz);
         break;
-    case STORE:
+    case STORE: instrucao_STORE(raiz);
         break;
-    case ADDI:
+    case ADDI: instrucao_ADDI(raiz);
         break;
-    case TEMP:
+    case TEMP: instrucao_TEMP(raiz);
         break;
-    case CONST:// const tslvez nap seja necessario por causa do ADDI
+    case CONST: // const tslvez nap seja necessario por causa do ADDI
         break;
     default:
         break;
     }
-
-    return "";
 }
 
 int SelecaoInstrucao::definir_caso()
@@ -49,7 +49,24 @@ int SelecaoInstrucao::definir_caso()
     return 0;
 }
 
-void SelecaoInstrucao::instrucao_add()
+void SelecaoInstrucao::instrucao_ADD(RI *nodo)
 {
-    
 }
+void SelecaoInstrucao::instrucao_SUB(RI *nodo)
+{
+}
+
+
+void SelecaoInstrucao::instrucao_MUL(RI *nodo)
+{
+}
+
+void SelecaoInstrucao::instrucao_DIV(RI *nodo) {}
+
+void SelecaoInstrucao::instrucao_LOAD(RI *nodo) {}
+
+void SelecaoInstrucao::instrucao_STORE(RI *nodo) {}
+
+void SelecaoInstrucao::instrucao_ADDI(RI *nodo) {}
+
+void SelecaoInstrucao::instrucao_TEMP(RI *nodo) {}
