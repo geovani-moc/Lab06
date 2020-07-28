@@ -2,7 +2,7 @@
 
 SelecaoInstrucao::SelecaoInstrucao(RI *representacao_intermediaria)
 {
-    contador_registradores = 1; //registrador 0 (r0) e reservado
+    contador_registradores = 1;
     if (-1 == selecionar(representacao_intermediaria))
     {
         fprintf(stderr, "Erro: Erro na selecao de instrucao.\n");
@@ -56,8 +56,8 @@ int SelecaoInstrucao::definir_caso(RI *nodo)
 int SelecaoInstrucao::instrucao_ADD(RI *nodo)
 {
     string temporario = "ADD ";
-    int registrador1 = selecionar(((Binop_RI *)nodo)->esq) - 1;
-    int registrador2 = selecionar(((Binop_RI *)nodo)->dir) - 1;
+    int registrador1 = selecionar(((Binop_RI *)nodo)->esq);
+    int registrador2 = selecionar(((Binop_RI *)nodo)->dir);
 
     temporario += "r" + to_string(contador_registradores) + " ";
     temporario += "r" + to_string(registrador1) + " ";
@@ -70,8 +70,8 @@ int SelecaoInstrucao::instrucao_ADD(RI *nodo)
 int SelecaoInstrucao::instrucao_SUB(RI *nodo)
 {
     string temporario = "SUB ";
-    int registrador1 = selecionar(((Binop_RI *)nodo)->esq) - 1;
-    int registrador2 = selecionar(((Binop_RI *)nodo)->dir) - 1;
+    int registrador1 = selecionar(((Binop_RI *)nodo)->esq);
+    int registrador2 = selecionar(((Binop_RI *)nodo)->dir);
 
     temporario += "r" + to_string(contador_registradores) + " ";
     temporario += "r" + to_string(registrador1) + " ";
@@ -84,8 +84,8 @@ int SelecaoInstrucao::instrucao_SUB(RI *nodo)
 int SelecaoInstrucao::instrucao_MUL(RI *nodo)
 {
     string temporario = "MUL ";
-    int registrador1 = selecionar(((Binop_RI *)nodo)->esq) - 1;
-    int registrador2 = selecionar(((Binop_RI *)nodo)->dir) - 1;
+    int registrador1 = selecionar(((Binop_RI *)nodo)->esq);
+    int registrador2 = selecionar(((Binop_RI *)nodo)->dir);
 
     temporario += "r" + to_string(contador_registradores) + " ";
     temporario += "r" + to_string(registrador1) + " ";
@@ -98,8 +98,8 @@ int SelecaoInstrucao::instrucao_MUL(RI *nodo)
 int SelecaoInstrucao::instrucao_DIV(RI *nodo)
 {
     string temporario = "DIV ";
-    int registrador1 = selecionar(((Binop_RI *)nodo)->esq) - 1;
-    int registrador2 = selecionar(((Binop_RI *)nodo)->dir) - 1;
+    int registrador1 = selecionar(((Binop_RI *)nodo)->esq);
+    int registrador2 = selecionar(((Binop_RI *)nodo)->dir);
 
     temporario += "r" + to_string(contador_registradores) + " ";
     temporario += "r" + to_string(registrador1) + " ";
@@ -130,7 +130,7 @@ int SelecaoInstrucao::instrucao_LOAD(RI *nodo)
     temporario += to_string(((Const_RI *)auxiliar->dir)->valor);
 
     instrucoes.push_back(temporario);
-    return ++contador_registradores;
+    return contador_registradores++;
 }
 int SelecaoInstrucao::instrucao_STORE(RI *nodo)
 {
@@ -142,5 +142,5 @@ int SelecaoInstrucao::instrucao_STORE(RI *nodo)
     temporario += "r" + to_string(selecionar(((Move_RI *)nodo)->dir));
 
     instrucoes.push_back(temporario);
-    return ++contador_registradores;
+    return contador_registradores++;
 }
