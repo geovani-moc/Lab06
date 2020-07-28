@@ -1,0 +1,21 @@
+int
+ID f
+(
+int
+ID n
+)
+{
+int
+ID a
+;
+int
+ID b
+;
+ID a
+=
+NUM 10
+;
+return
+ID a
+;
+}
