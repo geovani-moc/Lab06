@@ -13,22 +13,24 @@
 #define STORE (8)
 #define MOVEM (9)
 
+#define TEMP (10)
+#define CONST (11)
+
 using namespace std;
 
 class SelecaoInstrucao
 {
 private:
-    RI * representcao_intermediaria;
     string instrucoes;
-    string selecionar();
+    string selecionar(RI *raiz);
     int contador_registradores;
     int definir_caso();
+
+    void SelecaoInstrucao::instrucao_add();
+
 public:
-    SelecaoInstrucao(RI * representacao_intermediaria);
+    SelecaoInstrucao(RI *representacao_intermediaria);
     void imprimir();
 };
-
-
-
 
 #endif
