@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <typeinfo>
+#include <iostream>
 
 #define ADD (1)
 #define MUL (2)

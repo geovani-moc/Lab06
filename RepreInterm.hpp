@@ -15,9 +15,12 @@ class Mem_RI;
 class Move_RI;
 
 class RI {
+  public:
+  virtual ~RI(){};
 };
 
 class Exp_RI : public RI{
+  virtual ~Exp_RI(){};
 };
 
 class Const_RI : public Exp_RI {

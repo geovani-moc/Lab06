@@ -8,10 +8,10 @@ SelecaoInstrucao::SelecaoInstrucao(RI *representacao_intermediaria)
 
 void SelecaoInstrucao::imprimir()
 {
-    int tamanho = instrucoes.size();
-    for (int i = 0; i < tamanho; ++i)
+    size_t tamanho = instrucoes.size();
+    for (size_t i = 0; i < tamanho; ++i)
     {
-        printf("%s\n", instrucoes[i]);
+        printf("%s\n", instrucoes[i].c_str());
     }
 }
 
@@ -43,6 +43,13 @@ void SelecaoInstrucao::selecionar(RI *raiz)
 
 int SelecaoInstrucao::definir_caso(RI *nodo)
 {
+    cout << dynamic_cast<Move_RI*>(nodo)<< endl;
+    cout << typeid(Move_RI).name() << endl;
+    cout << typeid(Const_RI).name() << endl;
+    cout << typeid(Mem_RI).name() << endl;
+    cout << typeid(Binop_RI).name() << endl;
+
+
     if(typeid(*nodo).hash_code() == typeid(Move_RI).hash_code()) return STORE;
     if(typeid(*nodo).hash_code() == typeid(Const_RI).hash_code()) return ADDI;
     if(typeid(*nodo).hash_code() == typeid(Mem_RI).hash_code()) return LOAD;
