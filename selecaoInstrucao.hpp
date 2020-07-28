@@ -23,17 +23,17 @@ class SelecaoInstrucao
 {
 private:
     vector<string> instrucoes;
-    void selecionar(RI *raiz);
+    int selecionar(RI *raiz);
     int contador_registradores;
     int definir_caso(RI *nodo);
 
-    void instrucao_ADD(RI *nodo);
-    void instrucao_SUB(RI *nodo);
-    void instrucao_MUL(RI *nodo);
-    void instrucao_DIV(RI *nodo);
-    void instrucao_LOAD(RI *nodo);
-    void instrucao_STORE(RI *nodo);
-    void instrucao_ADDI(RI *nodo);
+    int instrucao_ADD(RI *nodo);
+    int instrucao_SUB(RI *nodo);
+    int instrucao_MUL(RI *nodo);
+    int instrucao_DIV(RI *nodo);
+    int instrucao_LOAD(RI *nodo);
+    int instrucao_STORE(RI *nodo);
+    int instrucao_ADDI(RI *nodo);
 
 public:
     SelecaoInstrucao(RI *representacao_intermediaria);

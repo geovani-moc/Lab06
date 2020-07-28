@@ -3,78 +3,130 @@
 SelecaoInstrucao::SelecaoInstrucao(RI *representacao_intermediaria)
 {
     contador_registradores = 1; //registrador 0 (r0) e reservado
-    selecionar(representacao_intermediaria);
+    if (-1 == selecionar(representacao_intermediaria))
+    {
+        fprintf(stderr, "Erro: Erro na selecao de instrucao.\n");
+        exit(EXIT_FAILURE);
+    }
 }
 
 void SelecaoInstrucao::imprimir()
 {
     size_t tamanho = instrucoes.size();
     for (size_t i = 0; i < tamanho; ++i)
-    {
         printf("%s\n", instrucoes[i].c_str());
-    }
 }
 
-void SelecaoInstrucao::selecionar(RI *raiz)
+int SelecaoInstrucao::selecionar(RI *raiz)
 {
     int caso = definir_caso(raiz);
 
     switch (caso)
     {
-    case ADD: instrucao_ADD(raiz);
-        break;
-    case SUB: instrucao_SUB(raiz);
-        break;
-    case MUL: instrucao_MUL(raiz);
-        break;
-    case DIV: instrucao_DIV(raiz);
-        break;
-    case LOAD: instrucao_LOAD(raiz);
-        break;
-    case STORE: instrucao_STORE(raiz);
-        break;
-    case ADDI: instrucao_ADDI(raiz);
-        break;
+    case ADD:
+        return instrucao_ADD(raiz);
+    case SUB:
+        return instrucao_SUB(raiz);
+    case MUL:
+        return instrucao_MUL(raiz);
+    case DIV:
+        return instrucao_DIV(raiz);
+    case LOAD:
+        return instrucao_LOAD(raiz);
+    case STORE:
+        return instrucao_STORE(raiz);
+    case ADDI:
+        return instrucao_ADDI(raiz);
     default:
         fprintf(stderr, "Erro: tipo de instrucao nao detectada.\n");
-        break;
+        exit(EXIT_FAILURE);
     }
-}
-
-int SelecaoInstrucao::definir_caso(RI *nodo)
-{    
-    if(typeid(*nodo).hash_code() == typeid(Move_RI).hash_code()) return STORE;
-    if(typeid(*nodo).hash_code() == typeid(Const_RI).hash_code()) return ADDI;
-    if(typeid(*nodo).hash_code() == typeid(Mem_RI).hash_code()) return LOAD;
-
-    if(typeid(*nodo).hash_code() == typeid(Binop_RI).hash_code())
-    {
-        string temporario = ((Binop_RI*)nodo)->oper;
-        if (temporario.compare("+") == 0) return ADD;
-        else if (temporario.compare("-") == 0) return SUB;
-        else if (temporario.compare("*") == 0) return MUL;
-        else if (temporario.compare("/") == 0) return DIV;        
-    }
-    
     return -1;
 }
 
-void SelecaoInstrucao::instrucao_ADD(RI *nodo)
+int SelecaoInstrucao::definir_caso(RI *nodo)
 {
+    if(NULL != dynamic_cast<Move_RI*>(nodo)) return STORE;
+    else if (NULL != dynamic_cast<Const_RI*>(nodo)) return ADDI;
+    else if (NULL != dynamic_cast<Mem_RI*>(nodo)) return LOAD;
+    else if (NULL != dynamic_cast<Binop_RI*>(nodo)) 
+    {
+        string temporario = ((Binop_RI *)nodo)->oper;
+        if (temporario.compare("+") == 0)
+            return ADD;
+        else if (temporario.compare("-") == 0)
+            return SUB;
+        else if (temporario.compare("*") == 0)
+            return MUL;
+        else if (temporario.compare("/") == 0)
+            return DIV;
+    }
+
+    return -1;
 }
-void SelecaoInstrucao::instrucao_SUB(RI *nodo)
+
+int SelecaoInstrucao::instrucao_ADD(RI *nodo)
 {
+    string temporario = "ADD ";
+    temporario += "r" + to_string(contador_registradores) + " ";
+    temporario += "r" + to_string(selecionar(((Binop_RI *)nodo)->esq)) + " ";
+    temporario += "r" + to_string(selecionar(((Binop_RI *)nodo)->dir));
+    instrucoes.push_back(temporario);
+
+    return ++contador_registradores;
 }
 
-
-void SelecaoInstrucao::instrucao_MUL(RI *nodo)
+int SelecaoInstrucao::instrucao_SUB(RI *nodo)
 {
+    string temporario = "SUB ";
+    temporario += "r" + to_string(contador_registradores) + " ";
+    temporario += "r" + to_string(selecionar(((Binop_RI *)nodo)->esq)) + " ";
+    temporario += "r" + to_string(selecionar(((Binop_RI *)nodo)->dir));
+    instrucoes.push_back(temporario);
+
+    return ++contador_registradores;
 }
 
-void SelecaoInstrucao::instrucao_DIV(RI *nodo) {}
+int SelecaoInstrucao::instrucao_MUL(RI *nodo)
+{
+    string temporario = "MUL ";
+    temporario += "r" + to_string(contador_registradores) + " ";
+    temporario += "r" + to_string(selecionar(((Binop_RI *)nodo)->esq)) + " ";
+    temporario += "r" + to_string(selecionar(((Binop_RI *)nodo)->dir));
+    instrucoes.push_back(temporario);
 
-void SelecaoInstrucao::instrucao_LOAD(RI *nodo) {}
+    return ++contador_registradores;
+}
 
-void SelecaoInstrucao::instrucao_STORE(RI *nodo) {}
+int SelecaoInstrucao::instrucao_DIV(RI *nodo)
+{
+    string temporario = "DIV ";
+    temporario += "r" + to_string(contador_registradores) + " ";
+    temporario += "r" + to_string(selecionar(((Binop_RI *)nodo)->esq)) + " ";
+    temporario += "r" + to_string(selecionar(((Binop_RI *)nodo)->dir));
+    instrucoes.push_back(temporario);
 
-void SelecaoInstrucao::instrucao_ADDI(RI *nodo) {}
+    return ++contador_registradores;
+}
+
+int SelecaoInstrucao::instrucao_ADDI(RI *nodo)
+{
+    string temporario = "ADDI ";
+    temporario += "r" + to_string(contador_registradores) + " ";
+    temporario += "r0 ";
+    temporario += to_string(((Const_RI *)nodo)->valor);
+    instrucoes.push_back(temporario);
+
+    return ++contador_registradores;
+}
+
+int SelecaoInstrucao::instrucao_LOAD(RI *nodo)
+{
+
+    return ++contador_registradores;
+}
+int SelecaoInstrucao::instrucao_STORE(RI *nodo)
+{
+    selecionar(((Move_RI*)nodo)->dir);
+    return ++contador_registradores;
+}
