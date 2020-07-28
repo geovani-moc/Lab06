@@ -17,7 +17,7 @@ void SelecaoInstrucao::imprimir()
 
 void SelecaoInstrucao::selecionar(RI *raiz)
 {
-    int caso = definir_caso();
+    int caso = definir_caso(raiz);
 
     switch (caso)
     {
@@ -35,18 +35,28 @@ void SelecaoInstrucao::selecionar(RI *raiz)
         break;
     case ADDI: instrucao_ADDI(raiz);
         break;
-    case TEMP: instrucao_TEMP(raiz);
-        break;
-    case CONST: // const tslvez nap seja necessario por causa do ADDI
-        break;
     default:
+        fprintf(stderr, "Erro: tipo de instrucao nao detectada.\n");
         break;
     }
 }
 
-int SelecaoInstrucao::definir_caso()
+int SelecaoInstrucao::definir_caso(RI *nodo)
 {
-    return 0;
+    if(typeid(*nodo).hash_code() == typeid(Move_RI).hash_code()) return STORE;
+    if(typeid(*nodo).hash_code() == typeid(Const_RI).hash_code()) return ADDI;
+    if(typeid(*nodo).hash_code() == typeid(Mem_RI).hash_code()) return LOAD;
+
+    if(typeid(*nodo).hash_code() == typeid(Binop_RI).hash_code())
+    {
+        string temporario = ((Binop_RI*)nodo)->oper;
+        if (temporario.compare("+") == 0) return ADD;
+        else if (temporario.compare("-") == 0) return SUB;
+        else if (temporario.compare("*") == 0) return MUL;
+        else if (temporario.compare("/") == 0) return DIV;        
+    }
+    
+    return -1;
 }
 
 void SelecaoInstrucao::instrucao_ADD(RI *nodo)
@@ -68,5 +78,3 @@ void SelecaoInstrucao::instrucao_LOAD(RI *nodo) {}
 void SelecaoInstrucao::instrucao_STORE(RI *nodo) {}
 
 void SelecaoInstrucao::instrucao_ADDI(RI *nodo) {}
-
-void SelecaoInstrucao::instrucao_TEMP(RI *nodo) {}
