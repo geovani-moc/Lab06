@@ -20,6 +20,7 @@ class RI {
 };
 
 class Exp_RI : public RI{
+  public:
   virtual ~Exp_RI(){};
 };
 

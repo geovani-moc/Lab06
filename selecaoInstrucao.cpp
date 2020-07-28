@@ -42,14 +42,7 @@ void SelecaoInstrucao::selecionar(RI *raiz)
 }
 
 int SelecaoInstrucao::definir_caso(RI *nodo)
-{
-    cout << dynamic_cast<Move_RI*>(nodo)<< endl;
-    cout << typeid(Move_RI).name() << endl;
-    cout << typeid(Const_RI).name() << endl;
-    cout << typeid(Mem_RI).name() << endl;
-    cout << typeid(Binop_RI).name() << endl;
-
-
+{    
     if(typeid(*nodo).hash_code() == typeid(Move_RI).hash_code()) return STORE;
     if(typeid(*nodo).hash_code() == typeid(Const_RI).hash_code()) return ADDI;
     if(typeid(*nodo).hash_code() == typeid(Mem_RI).hash_code()) return LOAD;
