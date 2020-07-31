@@ -33,6 +33,7 @@ int SelecaoInstrucao::selecionar(RI *raiz)
         fprintf(stderr, "Erro: tipo de instrucao nao detectada.\n");
         exit(EXIT_FAILURE);
     }
+    
     return -1;
 }
 
